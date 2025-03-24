@@ -1,0 +1,176 @@
+<div class="admin-dashboard">
+    <!-- ✅ Sidebar Navigation -->
+    <aside class="sidebar">
+        <h3 class="sidebar-title">Admin Panel</h3>
+
+        <button (click)="setActiveSection('student-stats')" [class.active]="activeSection === 'student-stats'">
+            📚 Student Stats
+        </button>
+
+        <button (click)="setActiveSection('login-logs')" [class.active]="activeSection === 'login-logs'">
+            📊 Login Logs
+        </button>
+
+        <!-- ✅ Fixed Dropdown (Hover instead of Click) -->
+        <div class="dropdown" (mouseenter)="showDropdown()" (mouseleave)="hideDropdown()">
+            <button class="manage-users-btn">👤 Manage Users</button>
+            <div class="dropdown-content" [class.show]="dropdownOpen">
+                <button (click)="setActiveSection('add-user')">➕ Add User</button>
+                <button (click)="setActiveSection('delete-user')">❌ Delete User</button>
+            </div>
+        </div>
+
+        <button (click)="setActiveSection('student-list')" [class.active]="activeSection === 'student-list'">
+            📋 Student List
+        </button>
+    </aside>
+
+    <!-- ✅ Main Content Section -->
+    <div class="main-content">
+        <div *ngIf="successMessage" class="success-message">
+            ✅ {{ successMessage }}
+        </div>
+        <div *ngIf="errorMessage" class="error-message">
+            ❌ {{ errorMessage }}
+        </div>
+
+        <!-- ✅ Header & Filters -->
+        <div class="header-container">
+            <h2>{{ dynamicHeading }}</h2>
+
+            <div class="filter-section" *ngIf="activeSection === 'student-stats'">
+                <label>Month:</label>
+                <select [(ngModel)]="selectedMonth">
+                    <option value="" disabled selected>Select Month</option>
+                    <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+                </select>
+
+                <label>Year:</label>
+                <select [(ngModel)]="selectedYear">
+                    <option value="" disabled selected>Select Year</option>
+                    <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+                </select>
+
+                <button (click)="fetchStudentData()" class="fetch-button">Fetch Data</button>
+            </div>
+
+            <div class="filter-section" *ngIf="activeSection === 'login-logs'">
+                <label>Role:</label>
+                <select [(ngModel)]="selectedRole">
+                    <option value="" disabled selected>Select Role</option>
+                    <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+                </select>
+
+                <label>Start Date:</label>
+                <input type="date" [(ngModel)]="selectedStartDate">
+                <label>End Date:</label>
+                <input type="date" [(ngModel)]="selectedEndDate">
+                <button (click)="fetchLoginLogs()" class="fetch-button">Fetch Logs</button>
+            </div>
+        </div>
+
+        <!-- ✅ Student Stats Section (Fixed Table Alignment) -->
+        <section *ngIf="activeSection === 'student-stats' && isDataFetched">
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Average Marks</th>
+                        <th>Top Student</th>
+                        <th>Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let subject of studentData?.average_marks">
+                        <td>{{ subject.subject_name }}</td>
+                        <td>{{ subject.average_marks | number: '1.0-2' }}</td>
+                        <td>{{ getTopStudentName(subject.subject_name) }}</td>
+                        <td>{{ getTopStudentMarks(subject.subject_name) || '-' }}</td> <!-- ✅ Fixed issue here -->
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </section>
+
+        <!-- ✅ Login Logs Section (Fixed Table Alignment) -->
+        <section *ngIf="activeSection === 'login-logs' && isLoginLogsFetched">
+            <table class="log-table">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Role</th>
+                        <th>Login Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let log of loginLogs">
+                        <td>{{ log.user_id || '-' }}</td>
+                        <td>{{ log.role }}</td>
+                        <td>{{ log.login_time | date:'medium' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- ✅ Add User Section (Fixed Alignment) -->
+        <section *ngIf="activeSection === 'add-user'" class="add-user-section">
+            
+        
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" [(ngModel)]="newUser.name" placeholder="Enter Name">
+            </div>
+            
+            <div class="form-group">
+                <label>Role:</label>
+                <select [(ngModel)]="newUser.role">
+                    <option value="" disabled selected>Select Role</option>
+                    <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Username:</label>
+                <input type="text" [(ngModel)]="newUser.username" placeholder="Enter Username">
+            </div>
+            
+            <div class="form-group">
+                <label>Password:</label>
+                <input type="password" [(ngModel)]="newUser.password" placeholder="Enter Password">
+            </div>
+        
+            <div class="button-group">
+                <button class="add-btn" (click)="addUser()">➕ Add User</button>
+                <button class="back-btn" (click)="setActiveSection('user-management')">⬅️ Back</button>
+            </div>
+        </section>
+        
+        <!-- ✅ Delete User Section (Fixed Table Alignment) -->
+        <section *ngIf="activeSection === 'delete-user'">
+            <table class="delete-user-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users">
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.role }}</td>
+                        <td>
+                            <button class="delete-btn" (click)="deleteUser(user.username)">❌ Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="back-btn" (click)="setActiveSection('user-management')">🔙 Back</button>
+        </section>
+
+        <!-- ✅ Student List Section -->
+        <section *ngIf="activeSection === 'student-list'">
+            <app-student-list></app-student-list>
+        </section>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<!-- ✅ Navbar with Dynamic Username -->
+<nav class="navbar" *ngIf="isLoggedIn()">
+  <div class="navbar-content">
+    <div class="user-role">
+      👋 Welcome, <strong>{{ displayName | titlecase }}!</strong>  <!-- ✅ Show actual username -->
+    </div>
+    <div class="logout-container">
+      <button class="logout-btn" (click)="logout()">🚪 Logout</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ✅ Main Content -->
+<main>
+  <router-outlet></router-outlet>
+</main>

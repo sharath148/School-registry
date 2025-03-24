@@ -1,0 +1,434 @@
+/* ============================== */ 
+/* Main Dashboard Container       */
+/* ============================== */
+.admin-dashboard {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* ============================== */
+/* Sidebar Styling                */
+/* ============================== */
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    padding: 20px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* ============================== */
+/* Main Content                   */
+/* ============================== */
+.main-content {
+    flex-grow: 1;
+    padding: 30px;
+    background-color: #fff;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    box-shadow: -2px 0px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 250px;
+}
+
+/* ============================== */
+/* Sidebar Buttons                */
+/* ============================== */
+.sidebar-title {
+    font-size: 20px;
+    color: #ecf0f1;
+    margin-bottom: 24px;
+}
+
+.sidebar button,
+.manage-users-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 12px;
+    background-color: #34495e;
+    color: #ecf0f1;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: left;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Top spacing for first button */
+.sidebar button:first-of-type {
+    margin-top: 20px;
+}
+
+.sidebar button.active,
+.sidebar button:hover,
+.manage-users-btn:hover {
+    background-color: #1abc9c;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* ============================== */
+/* Manage Users Dropdown          */
+/* ============================== */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    left: 110%;
+    top: 0;
+    background-color: #2c3e50;
+    width: 180px;
+    border-radius: 6px;
+    z-index: 1000;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
+    padding: 8px 0;
+    transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    opacity: 1;
+    transform: translateX(5px);
+}
+
+.dropdown-content button {
+    width: 100%;
+    padding: 12px;
+    background: #3f51b5;
+    color: white;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 6px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.dropdown-content button:hover {
+    background: #1abc9c;
+    transform: scale(1.05);
+}
+
+/* ============================== */
+/* Header & Page Title            */
+/* ============================== */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #3f51b5;
+    font-size: 26px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* ============================== */
+/* Filter Section Styling         */
+/* ============================== */
+.filter-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+}
+
+select,
+input[type="date"],
+input[type="text"],
+.fetch-button {
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+    width: auto;
+}
+
+.fetch-button {
+    background-color: #27ae60;
+    color: white;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+}
+
+.fetch-button:hover {
+    background-color: #219150;
+}
+
+/* ============================== */
+/* Tables Styling                 */
+/* ============================== */
+.stats-table,
+.log-table,
+.delete-user-table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.stats-table th,
+.log-table th,
+.delete-user-table th {
+    background: #3f51b5;
+    color: white;
+    font-weight: bold;
+    padding: 12px;
+    text-align: center;
+    border-bottom: 2px solid #ccc;
+}
+
+.stats-table td,
+.log-table td,
+.delete-user-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.stats-table th, .stats-table td,
+.log-table th, .log-table td,
+.delete-user-table th, .delete-user-table td {
+    width: 25%;
+}
+
+.stats-table tr:hover,
+.log-table tr:hover,
+.delete-user-table tr:hover {
+    background: #e3f2fd;
+}
+
+/* ============================== */
+/* Add User / Delete User Section */
+/* ============================== */
+.delete-user-container {
+    position: relative;
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+    background: white;
+}
+
+.add-user-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 60%;
+    margin: auto;
+}
+
+.add-user-container input,
+.add-user-container select {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-user-container button {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.add-user-container button:first-of-type {
+    background-color: #27ae60;
+    color: white;
+}
+
+.add-user-container button:first-of-type:hover {
+    background-color: #1e8449;
+    transform: scale(1.05);
+}
+
+.add-user-container button:last-of-type {
+    background-color: #3f51b5;
+    color: white;
+}
+
+.add-user-container button:last-of-type:hover {
+    background-color: #2c3e91;
+    transform: scale(1.05);
+}
+
+/* ============================== */
+/* Compact Add User Row UI       */
+/* ============================== */
+.add-user-section {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.add-user-section .form-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+}
+
+.add-user-section input,
+.add-user-section select {
+    padding: 6px;
+    font-size: 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 120px;
+}
+
+.button-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.button-group button {
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.button-group .add-btn {
+    background-color: #27ae60;
+    color: white;
+}
+
+.button-group .add-btn:hover {
+    background-color: #1e8449;
+}
+
+.button-group .back-btn {
+    background-color: #3f51b5;
+    color: white;
+}
+
+.button-group .back-btn:hover {
+    background-color: #2c3e91;
+}
+
+/* ============================== */
+/* Alert Styling                  */
+/* ============================== */
+.alert {
+    padding: 12px;
+    margin-top: 15px;
+    border-radius: 6px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-success {
+    background: #DFF2BF;
+    color: #4CAF50;
+}
+
+.alert-error {
+    background: #FFD2D2;
+    color: #E53935;
+}
+/* ✅ Fix flickering: controlled by Angular via `.show` class */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    left: 110%;
+    top: 0;
+    background-color: #2c3e50;
+    width: 180px;
+    border-radius: 6px;
+    z-index: 1000;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
+    padding: 8px 0;
+    transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* ✅ Now shown only via Angular class toggle */
+.dropdown-content.show {
+    display: block;
+    opacity: 1;
+    transform: translateX(5px);
+}
+.sidebar button,
+.manage-users-btn {
+    
+    margin-bottom: 14px; /* 🔧 Adjusted from 20px to 14px */
+}
+.sidebar button,
+.manage-users-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 16px; /* 🎯 Set all button spacing uniformly */
+    border: none;
+    border-radius: 12px;
+    background-color: #34495e;
+    color: #ecf0f1;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: left;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Add top spacing only for the very first button */
+.sidebar button:first-of-type {
+    margin-top: 20px;
+}
